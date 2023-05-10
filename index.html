@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crud app</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Navbar</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  <a class="nav-link" href="#">Features</a>
+                  <a class="nav-link" href="#">Pricing</a>
+                  <a class="nav-link disabled">Disabled</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <main>
+        <div class="container mt-5 col-6">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="chapter name" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button id="add_btn" class="btn btn-outline-info" type="button" id="button-addon2">add</button>
+          </div>
+        
+        <ul id="parentlist" class="list-group">
+            <li class="list-group-item">
+              <h3> chapter 1 </h3>
+              <button class="btn btn-warning" onclick="editchapter(this)">Edit</button>
+              <button class="btn btn-danger" onclick="removechapter(this)">Remove</button>
+
+            </li>
+          </ul>
+        </div>
+    </main>
+
+    <script>
+        let addbtn = document.getElementById('add_btn')
+        addbtn.addEventListener("click", addchapter)
+        let parentlist = document.getElementById('parentlist')
+        function addchapter(e)
+        {if(parentlist.children[0].className=="emptymsg"){
+          parentlist.children[0].remove()
+        }
+            let currentBtn = e.currentTarget;
+            let currentInput = currentBtn.previousElementSibling
+            let newLi = document.createElement("li")
+            let currentchaptername = currentInput.value
+
+
+            //newLi.classList.add('list-group-item')
+            newLi.classList.add("list-group-item")
+            newLi.innerHTML =  `<h3>${currentchaptername}</h3>
+              <button class="btn btn-warning" onclick="editchapter(this)">Edit</button>
+              <button class="btn btn-danger" onclick="removechapter(this)">Remove</button>
+               `
+
+            
+            parentlist.appendChild(newLi)
+        }
+        function removechapter(currElement){
+          currElement.parentElement.remove()
+          let parentlist = document.getElementById('parentlist')
+          if(parentlist.children.length <= 0 ){
+            let newemptymsg = document.createElement("h3")
+            newemptymsg.classList.add("emptymsg")
+            newemptymsg.textContent="nothing is here, please add a chapter"
+            parentlist.appendChild(newemptymsg)
+          }
+
+        }
+        function editchapter(currElement) {
+          if (currElement.textContent == "Done"){
+            currElement.textContent = "Edit"
+            let currentchaptername = currElement.previousElementSibling.value 
+            let currentHeading = document.createElement("h3");
+
+            currentHeading.textContent= currentchaptername
+            currElement.parentElement.replaceChild(currentHeading, currElement.previousElementSibling)
+
+          }else{
+            currElement.textContent = "Done"
+          let currentchaptername = currElement.previousElementSibling.textContent
+          let currentInput = document.createElement('input');
+          currentInput.type = "text";
+          currentInput.placeholder = "chapter name";
+          currentInput.className = "form-control";
+          currentInput.value = currentchaptername
+          currElement.parentElement.replaceChild(currentInput, currElement.previousElementSibling)
+          }
+       }
+    </script>
+</body>
+
+</html>
